@@ -19,6 +19,7 @@ float angle;             // move steps
 float pos = INITPOS;     // record current position
 float Speed = MINSPEED;   // min cycle 1 milliseconds means max frequency 1000HZ
 int flag=1;          // chose mode
+int timerid;
 
 void setup() {
   Serial.begin(9600);
@@ -30,12 +31,12 @@ void setup() {
 
 void loop() {
  // select mode
- if(flag){
+ /*if(flag){
   mode();
   Serial.println("hello");
- }
+ }*/
  // motor work
- else{
+ //else{
   if(Serial.available()){
     
     angle = Serial.parseFloat();
@@ -45,9 +46,14 @@ void loop() {
     Serial.print("position\t");
     Serial.println(pos);
   }
- 
+  
+  timerid = t.findFreeEventIndex();  // record timer id
+  if(timerid){                  // if timerid<0, then send message to tell pi
+  Serial.println(timerid);     
+  }
   t.update();              // update Timer event status
- }
+         
+// }
  
 }
 
